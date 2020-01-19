@@ -25,10 +25,16 @@ SECRET_KEY = 'p9su76jy*(rb%dstki=^!5+cwhc#7fhih-59y9fc&0!32d+5=r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+"""Отсюда мы хостимся, в данном случае с "ПитонПовсюду". Пока не понял имеет
+ли значение тот айпи, что первый в списке. Скорее всего это голый айпишник
+для запуска на локальной машине"""
+
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
 
 # Application definition
+"""В конец был добавлен 'blog', это необходимо для того, чтобы 
+поставить приложение блог на голый сервер"""
 
 INSTALLED_APPS = [
     'django.contrib.admin',
