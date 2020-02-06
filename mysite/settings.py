@@ -29,7 +29,7 @@ DEBUG = True
 ли значение тот айпи, что первый в списке. Скорее всего это голый айпишник
 для запуска на локальной машине"""
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', 'localhost']
 
 
 # Application definition
@@ -130,3 +130,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+#Мои Shtuchki
+
+LOGIN_REDIRECT_URL = '/'

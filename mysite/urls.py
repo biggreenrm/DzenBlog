@@ -16,10 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.contrib.auth import views
+
 """Django теперь будет перенаправлять все запросы 'http://127.0.0.1:8000/'
  к blog.urls и искать там дальнейшие инструкции."""
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')), #путём добавления в список паттернов этой функции
+    path('accounts/login/', views.LoginView.as_view(), name='login'), #Почему в данном случае мы добавляем это не в blog.urls?
+    path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
