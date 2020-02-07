@@ -11,6 +11,19 @@ class Post(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+    # from here begin to do somerhing myway
+    theory = 'th'
+    practice = 'pr'
+    poetry = 'po'
+    mindflow = 'mf'
+    THEME_CHOICES = (
+        (theory, "Theory"),
+        (practice, "Practice"),
+        (poetry, "Poetry"),
+        (mindflow, "Mindflow"),
+    )
+    theme = models.CharField(max_length=2, choices=THEME_CHOICES, default=theory)
+    karma = models.IntegerField(default=0)
 
     def publish(self):
         self.published_date = timezone.now()
