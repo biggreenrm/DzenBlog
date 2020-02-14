@@ -24,6 +24,7 @@ class Post(models.Model):
     theme = models.CharField(max_length=2, choices=THEME_CHOICES, default=theory)
     slug = models.SlugField(max_length=250, unique_for_date='published_date') #это формирует уникальные urls по дате
 
+
     def publish(self):
         self.published_date = timezone.now()
         self.save()
@@ -38,6 +39,7 @@ class Post(models.Model):
     #аналогичное я проделываю в самой хтмл-странице, так что возможно и не пригодится
     class Meta:
         ordering = ('-published_date',)
+
 
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments') #Привязка

@@ -16,8 +16,8 @@ def post_list(request):
     return render(request, 'blog/post_list.html', {'posts': posts})
 
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     return render(request, 'blog/post_detail.html', {'post': post})
 
 @login_required
@@ -28,14 +28,14 @@ def post_new(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
 @login_required
-def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_edit(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
@@ -43,7 +43,7 @@ def post_edit(request, pk):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
@@ -54,38 +54,38 @@ def post_draft_list(request):
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 
 @login_required
-def post_publish(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_publish(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     post.publish()
-    return redirect('post_detail', pk=pk)
+    return redirect('post_detail', slug=slug)
 
 @login_required
-def post_remove(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_remove(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     post.delete()
     return redirect('post_list')
 
-def add_comment_to_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def add_comment_to_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
 @login_required
-def comment_approve(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
+def comment_approve(request, slug):
+    comment = get_object_or_404(Comment, slug=slug)
     comment.approve()
-    return redirect('post_detail', pk=comment.post.pk)
+    return redirect('post_detail', slug=comment.post.slug)
 
 @login_required
-def comment_remove(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
+def comment_remove(request, slug):
+    comment = get_object_or_404(Comment, slug=slug)
     comment.delete()
-    return redirect('post_detail', pk=comment.post.pk)    
+    return redirect('post_detail', slug=comment.post.slug)    
