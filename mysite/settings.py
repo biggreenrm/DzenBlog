@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog'
+    'blog',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #Мои Shtuchki
 
 LOGIN_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'user.CustomUser'

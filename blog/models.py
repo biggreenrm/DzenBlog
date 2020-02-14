@@ -6,12 +6,6 @@ from django.utils import timezone
 
 
 class Post(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    text = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
-    # from here begin to do somerhing myway
     theory = 'th'
     practice = 'pr'
     poetry = 'po'
@@ -22,8 +16,13 @@ class Post(models.Model):
         (poetry, "Poetry"),
         (mindflow, "Mindflow"),
     )
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
     theme = models.CharField(max_length=2, choices=THEME_CHOICES, default=theory)
-    karma = models.IntegerField(default=0)
+    slug = models.SlugField(max_length=250, unique_for_date='published_date') #это формирует уникальные urls по дате
 
     def publish(self):
         self.published_date = timezone.now()
@@ -35,6 +34,10 @@ class Post(models.Model):
     def approved_comments(self):
         return self.comments.filter(approved_comment=True)
 
+    #это реализация правильного порядка вывода постов в блоге.
+    #аналогичное я проделываю в самой хтмл-странице, так что возможно и не пригодится
+    class Meta:
+        ordering = ('-published_date',)
 
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments') #Привязка

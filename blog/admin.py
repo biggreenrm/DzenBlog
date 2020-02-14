@@ -2,5 +2,16 @@ from django.contrib import admin
 from .models import Post, Comment
 # Register your models here.
 
-admin.site.register(Post)
-admin.site.register(Comment)
+admin.site.register(Comment) #add model comment to the admin panel at "admin/"
+
+#этот декоратор выполняет ту же самую функцию, что и admin.site.register(Post)
+#параметр list_display указывает джанге какие поля выводить в админке 
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug', 'author', 'theme', 'published_date', 'created_date')
+    list_filter = ('created_date', 'published_date', 'author', 'theme') #add filter to the right (created, published date) and
+    #possibility to sort list in admin panel
+    search_fields = ('title', 'text') #add search field to the top to make search in 'text' and 'title' columns of DB.
+    prepopulated_fields = {'slug': ('title',)} #auto-generating urls from title
+    date_hierarchy = 'created_date' #add date navigation panel
+    ordering = ('created_date', 'author') #default sorting style
