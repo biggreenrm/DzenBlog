@@ -2,7 +2,14 @@ from django.contrib import admin
 from .models import Post, Comment
 # Register your models here.
 
-admin.site.register(Comment) #add model comment to the admin panel at "admin/"
+#add model comment to the admin panel at "admin/"
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('post', 'author', 'text', 'created_date', 'approved_comment')
+    list_filter = ('post', 'author', 'text', 'created_date', 'approved_comment')
+    search_fields = ('text',)
+    ordering = ('created_date', 'author')
 
 #этот декоратор выполняет ту же самую функцию, что и admin.site.register(Post)
 #параметр list_display указывает джанге какие поля выводить в админке 
