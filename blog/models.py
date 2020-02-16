@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from autoslug import AutoSlugField
 
 
 class Post(models.Model):
@@ -22,7 +23,7 @@ class Post(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     theme = models.CharField(max_length=2, choices=THEME_CHOICES, default=theory)
-    slug = models.SlugField(max_length=250, unique_for_date='published_date') #это формирует уникальные urls по дате
+    slug = AutoSlugField(populate_from='title')
 
 
     def publish(self):
