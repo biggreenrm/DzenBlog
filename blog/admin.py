@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Post, Comment
+from user.models import CustomUser
 # Register your models here.
 
 #add model comment to the admin panel at "admin/"
@@ -23,3 +24,10 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_date' #add date navigation panel
     ordering = ('created_date', 'author') #default sorting style
     """Все переменные выше уже знакомы джанге и именно по ним она ориентируется)"""
+
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'email', 'is_staff', 'last_login')
+    list_filter = ('first_name', 'last_name', 'email', 'is_staff', 'last_login')
+    ordering = ('last_name',)
+    search_fields = ('first_name', 'last_name')
