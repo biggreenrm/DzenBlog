@@ -6,6 +6,8 @@ from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from autoslug import AutoSlugField
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 
@@ -13,7 +15,19 @@ from autoslug import AutoSlugField
 и рендерит страницу с постами (передаёт в шаблоны templates) """
 
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    posts = Post.objects.filter(
+        published_date__lte=timezone.now()
+        ).order_by('published_date')
+    paginator = Paginator(posts, 3) #создаём пагинатор (разбиение на страницы), по 3 поста на страничку
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        #if page is not number - return first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+        #if number is more, than total amount of pages - return last
     return render(request, 'blog/post_list.html', {'posts': posts})
 
 

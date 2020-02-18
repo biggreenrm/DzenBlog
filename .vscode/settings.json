@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "myenv/bin/python3",
+    "python.pythonPath": "/usr/local/bin/python3",
     "git.ignoreLimitWarning": true,
     "editor.defaultFormatter": "vscode.python",
     "files.autoSave": "afterDelay",
