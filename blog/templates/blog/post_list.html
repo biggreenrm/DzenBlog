@@ -11,4 +11,5 @@
             <a href="{% url 'post_detail' slug=post.slug %}">Comments: {{ post.approved_comments.count }}</a>
         </div>
     {% endfor %}
+    {% include "blog/pagination.html" with page=posts %}
 {% endblock %}
