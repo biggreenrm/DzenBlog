@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Post, Comment
-from .templates.blog.forms import PostForm, CommentForm
+from .templates.blog.forms import PostForm, CommentForm, PostSendForm
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
@@ -103,4 +103,36 @@ def comment_approve(request, slug):
 def comment_remove(request, slug):
     comment = get_object_or_404(Comment, slug=slug)
     comment.delete()
-    return redirect('post_detail', slug=comment.post.slug)    
+    return redirect('post_detail', slug=comment.post.slug)
+
+def post_share(request, slug):
+    #how to get article not by id, but by slug?
+    post = get_object_or_404(Post, slug=slug) #here can be added feature to send only published posts
+    sent = False
+    if request.method == "POST": 
+        form = PostSendForm(request.POST) #here form is saved
+        if form.is_valid(): # form is validated
+            cd = form.cleaned_data #sending email
+            post_url = request.build.absolute_uri(post.get_abslolute_url())
+            subject = '{} ({}) recommends you reading "{}"'.format(
+                cd['name'],
+                cd['email'],
+                post.title
+            )
+            message = 'Read "{}" at {}\n\n{}\'s comments:{}'.format(
+                post.title,
+                post.url,
+                cd['name'],
+                cd['comments']
+            )
+            send_mail(subject, message, 'biggreen.rm@gmail.com', [cd['to']])
+            sent = True
+        else:
+            form = PostSendForm()
+            return render(request, 'blog/share.html', {
+                'post': post,
+                'form': form,
+                'sent': sent
+                })
+
+
