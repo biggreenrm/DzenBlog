@@ -16,6 +16,9 @@
         {% endif %}
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
+        <p>
+            <a class="btn btn-default" href="{% url 'post_share' slug=post.slug %}">Share this post</a>
+        </p>
     </div>
     <hr>
         <a class="btn btn-default" href="{% url 'add_comment_to_post' slug=post.slug %}">Add comment</a>

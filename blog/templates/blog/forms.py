@@ -23,7 +23,7 @@ class CommentForm(forms.ModelForm):
 
 """ this is own created form that provide ability to send article
 and share them using only email. Form is real form in the straight sense,
-can field by anything"""
+can be filled by anything"""
 
 class PostSendForm(forms.Form):
     name = forms.CharField(max_length=25)

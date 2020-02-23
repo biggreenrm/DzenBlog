@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from autoslug import AutoSlugField
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -113,7 +114,7 @@ def post_share(request, slug):
         form = PostSendForm(request.POST) #here form is saved
         if form.is_valid(): # form is validated
             cd = form.cleaned_data #sending email
-            post_url = request.build.absolute_uri(post.get_abslolute_url())
+            post_url = request.build_absolute_uri(post.get_abslolute_url())
             subject = '{} ({}) recommends you reading "{}"'.format(
                 cd['name'],
                 cd['email'],
@@ -121,18 +122,16 @@ def post_share(request, slug):
             )
             message = 'Read "{}" at {}\n\n{}\'s comments:{}'.format(
                 post.title,
-                post.url,
+                post_url,
                 cd['name'],
                 cd['comments']
             )
             send_mail(subject, message, 'biggreen.rm@gmail.com', [cd['to']])
             sent = True
+            return redirect('post_detail', slug=post.slug)
         else:
             form = PostSendForm()
-            return render(request, 'blog/share.html', {
-                'post': post,
-                'form': form,
-                'sent': sent
-                })
+            return render(request, 'blog/share.html', 
+            {'post': post, 'form': form, 'sent': sent})
 
 
