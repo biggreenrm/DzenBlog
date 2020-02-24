@@ -14,7 +14,7 @@
         <a class="btn btn-default" href="{% url 'post_edit' slug=post.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
         <a class="btn btn-default" href="{% url 'post_remove' slug=post.slug %}"><span class="glyphicon glyphicon-remove"></span></a>
         {% endif %}
-        <h1>{{ post.title }}</h1>
+        <h1><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h1>
         <p>{{ post.text|linebreaksbr }}</p>
         <p>
             <a class="btn btn-default" href="{% url 'post_share' slug=post.slug %}">Share this post</a>
