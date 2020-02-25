@@ -5,7 +5,7 @@
     "files.autoSave": "afterDelay",
     "workbench.colorTheme": "One Monokai",
     "workbench.preferredDarkColorTheme": "One Monokai",
-    "editor.fontSize": 16,
     "workbench.preferredHighContrastColorTheme": "One Monokai",
-    "workbench.preferredLightColorTheme": "One Monokai"
+    "workbench.preferredLightColorTheme": "One Monokai",
+    "editor.fontSize": 14
 }
