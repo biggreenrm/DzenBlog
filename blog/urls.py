@@ -7,6 +7,10 @@ from . import views
 """Таким образом мы связываем view под именем 'post_list' с корневым адресом"""
 urlpatterns = [
     path('', views.post_list, name='post_list'), #'' - этот шаблон соответствует пустой строке
+    path('theory/', views.post_list_theory, name='post_list_theory'),
+    path('practice/', views.post_list_practice, name='post_list_practice'),
+    path('poetry/', views.post_list_poetry, name='views.post_list_poetry'),
+    path('poetry/', views.post_list_mindflow, name='views.post_list_mindflow'),
     path('post/<slug>/', views.post_detail, name='post_detail'),
     path('post/<slug>/share/', views.post_share, name='post_share'),
     path('new/', views.post_new, name='post_new'),

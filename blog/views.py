@@ -34,6 +34,34 @@ def post_list(request):
         # if number is more, than total amount of pages - return last
     return render(request, "blog/post_list.html", {"posts": posts})
 
+def post_list_theory(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
+        "published_date"
+    )
+    posts = posts.filter(theme="th")
+    return render(request, "blog/post_list_theory.html", {"posts": posts})
+
+def post_list_practice(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
+        "published_date"
+    )
+    posts = posts.filter(theme="pr")
+    return render(request, "blog/post_list_practice.html", {"posts": posts})
+
+def post_list_poetry(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
+        "published_date"
+    )
+    posts = posts.filter(theme="po")
+    return render(request, "blog/post_list_poetry.html", {"posts": posts})
+
+def post_list_mindflow(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
+        "published_date"
+    )
+    posts = posts.filter(theme="mf")
+    return render(request, "blog/post_list_theory.html", {"posts": posts})
+
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
