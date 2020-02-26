@@ -11,27 +11,31 @@ from django.core.mail import send_mail
 
 
 # Create your views here.
-
-""" Первое представление, которое принимает запрос в качестве аргумента
-и рендерит страницу с постами (передаёт в шаблоны templates) """
-
+""" Функция панинатор, написанная для того, чтобы не раздувать каждое представление,
+заменяя 16 строк кода всего одной. DRY """
+def paginate(posts, request, num):
+    paginator = Paginator(
+        posts, num
+    )  # создаём пагинатор (разбиение на страницы), по 3 поста на страничку
+    page = request.GET.get("page")
+    try:
+        posts = paginator.page(page)
+        return posts
+    except PageNotAnInteger:
+        # if page is not number - return first page
+        posts = paginator.page(1)
+        return posts
+    except EmptyPage:
+        return posts
+        posts = paginator.page(paginator.num_pages)
+        # if number is more, than total amount of pages - return last
+    
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
         "published_date"
     )
-    paginator = Paginator(
-        posts, 3
-    )  # создаём пагинатор (разбиение на страницы), по 3 поста на страничку
-    page = request.GET.get("page")
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # if page is not number - return first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-        # if number is more, than total amount of pages - return last
+    posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
 
 def post_list_theory(request):
@@ -39,6 +43,7 @@ def post_list_theory(request):
         "published_date"
     )
     posts = posts.filter(theme="th")
+    posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
 
 def post_list_practice(request):
@@ -46,6 +51,7 @@ def post_list_practice(request):
         "published_date"
     )
     posts = posts.filter(theme="pr")
+    posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
 
 def post_list_poetry(request):
@@ -53,6 +59,7 @@ def post_list_poetry(request):
         "published_date"
     )
     posts = posts.filter(theme="po")
+    posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
 
 def post_list_mindflow(request):
@@ -60,6 +67,7 @@ def post_list_mindflow(request):
         "published_date"
     )
     posts = posts.filter(theme="mf")
+    posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
@@ -155,7 +163,7 @@ def post_share(request, slug):
     if request.method == "POST":
         form = PostSendForm(request.POST)  # here form is saved
         if form.is_valid():  # form is validated
-            cd = form.cleaned_data  # sending email
+            cd = form.cleaned_data 
             post_url = request.build_absolute_uri(post.slug)
             subject = '{} ({}) recommends you reading "{}"'.format(
                 cd["name"], cd["email"], post.title

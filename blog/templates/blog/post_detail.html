@@ -8,28 +8,28 @@
                 {{ post.published_date }}
             </div>
         {% else %}
-            <a class="btn btn-default" href="{% url 'post_publish' slug=post.slug %}">Publish</a>
+            <a class="btn btn-success" href="{% url 'post_publish' slug=post.slug %}">Publish</a>
         {% endif %}
         {% if user.is_authenticated %}
-        <a class="btn btn-default" href="{% url 'post_edit' slug=post.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        <a class="btn btn-default" href="{% url 'post_remove' slug=post.slug %}"><span class="glyphicon glyphicon-remove"></span></a>
+        <a class="btn btn-success" href="{% url 'post_edit' slug=post.slug %}">Edit</a>
+        <a class="btn btn-success" href="{% url 'post_remove' slug=post.slug %}">Remove</a>
         {% endif %}
         <h1><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h1>
         <p>{{ post.text|linebreaksbr }}</p>
         <p>
-            <a class="btn btn-default" href="{% url 'post_share' slug=post.slug %}">Share this post</a>
+            <a class="btn btn-success" href="{% url 'post_share' slug=post.slug %}">Share this post</a>
         </p>
     </div>
     <hr>
-        <a class="btn btn-default" href="{% url 'add_comment_to_post' slug=post.slug %}">Add comment</a>
+        <a class="btn btn-success" href="{% url 'add_comment_to_post' slug=post.slug %}">Add comment</a>
         {% for comment in post.comments.all %}
             {% if user.is_authenticated or comment.approved_comment %}
                 <div class="comment">
                     <div class="date">
                         {{ comment.created_date }}
                         {% if not comment.approved_comment %}
-                            <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                            <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                            <a class="btn btn-success" href="{% url 'comment_remove' pk=comment.pk %}">remove comment/a>
+                            <a class="btn btn-success" href="{% url 'comment_approve' pk=comment.pk %}">approve comment</a>
             {% endif %}
                     </div>
                     <strong>{{ comment.author }}</strong>

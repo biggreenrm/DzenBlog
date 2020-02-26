@@ -11,7 +11,7 @@
               <div class="text-right">
                 {% if user.is_authenticated %}
                   <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
-                    <a href="{% url 'post_new' %}" class="btn btn-success pull-right" role="button">Add Post</a>
+                    <a href="{% url 'post_new' %}" class=`` pull-right" role="button">Add Post</a>
                     <a href="{% url 'post_draft_list' %}" class="btn btn-success pull-right" role="button">Edit Post</a>
                 {% else %}
                     <a href="{% url 'login' %}" class="btn btn-success pull-right">login</a>
