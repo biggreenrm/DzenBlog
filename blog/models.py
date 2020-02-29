@@ -22,7 +22,7 @@ class Post(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
-    theme = models.CharField(max_length=2, choices=THEME_CHOICES, default=theory)
+    theme = models.CharField(max_length=255, choices=THEME_CHOICES, default=theory)
     slug = AutoSlugField(populate_from="title")
 
     def publish(self):
