@@ -6,7 +6,7 @@ from . import views
 """Вот эта штука называется url-шаблон, добавляется ручками"""
 """Таким образом мы связываем view под именем 'post_list' с корневым адресом"""
 urlpatterns = [
-    path('', views.post_list, name='post_list'), #'' - этот шаблон соответствует пустой строке
+    path('', views.PostListView.as_view(), name='post_list'),
     path('theory/', views.post_list_theory, name='post_list_theory'),
     path('practice/', views.post_list_practice, name='post_list_practice'),
     path('poetry/', views.post_list_poetry, name='post_list_poetry'),
