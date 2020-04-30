@@ -8,10 +8,12 @@ from django.contrib.auth.decorators import login_required
 from autoslug import AutoSlugField
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 # Create your views here.
-""" Функция панинатор, написанная для того, чтобы не раздувать каждое представление,
+""" Функция пагинатор, написанная для того, чтобы не раздувать каждое представление,
 заменяя 16 строк кода всего одной. DRY """
 def paginate(posts, request, num):
     paginator = Paginator(
@@ -31,12 +33,19 @@ def paginate(posts, request, num):
         # if number is more, than total amount of pages - return last
     
 
+def PostListView(APIView):
+    def get(self, request):
+        posts = Post.object.all()
+        return Response({'posts': posts})
+
+"""
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
         "published_date"
     )
     posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
+"""
 
 def post_list_theory(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
@@ -46,6 +55,7 @@ def post_list_theory(request):
     posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
 
+
 def post_list_practice(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
         "published_date"
@@ -54,6 +64,7 @@ def post_list_practice(request):
     posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
 
+
 def post_list_poetry(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
         "published_date"
@@ -61,6 +72,7 @@ def post_list_poetry(request):
     posts = posts.filter(theme="po")
     posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
+
 
 def post_list_mindflow(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
