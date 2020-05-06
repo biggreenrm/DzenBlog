@@ -25,6 +25,9 @@ class Post(models.Model):
     theme = models.CharField(max_length=255, choices=THEME_CHOICES, default=theory)
     slug = AutoSlugField(populate_from="title")
 
+    class Meta:
+        ordering = ("-published_date",)
+        
     def publish(self):
         self.published_date = timezone.now()
         self.save()
@@ -35,26 +38,13 @@ class Post(models.Model):
     def approved_comments(self):
         return self.comments.filter(approved_comment=True)
 
-    # это реализация правильного порядка вывода постов в блоге.
-    # аналогичное я проделываю в самой хтмл-странице, так что возможно и не пригодится
-    class Meta:
-        ordering = ("-published_date",)
-
 
 class Comment(models.Model):
-    post = models.ForeignKey(
-        "blog.Post", on_delete=models.CASCADE, related_name="comments"
-    )  # Привязка
-
-    """The related_name option in models.ForeignKey allows
-    us to have access to comments from within the Post model"""
-
+    post = models.ForeignKey("blog.Post", on_delete=models.CASCADE, related_name="comments")
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    approved_comment = models.BooleanField(
-        default=False
-    )  # а тут, походу, мы вводим цензуру :) БД столбец с булевыми значениями
+    approved_comment = models.BooleanField(default=False)
 
     def approve(self):
         self.approved_comment = True

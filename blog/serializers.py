@@ -4,14 +4,17 @@ from .models import Post
 class PostSeriazizer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ['author', 'title', 'text', 'theme']
         
     def create(self, validated_data):
         return Post.objects.create(**validated_data)
 
-"""class PostSeriazizer(serializers.Serializer):
-    title = serializers.CharField(max_length=200)
-    text = serializers.CharField()
-    theme = serializers.CharField()
-    author_id = serializers.IntegerField()"""
+    def update(self, instance, validated_data):
+        instance.author = validated_data.get('author', instance.author)
+        instance.title = validated_data.get('title', instance.title)
+        instance.text = validated_data.get('text', instance.text)
+        instance.theme = validated_data.get('theme', instance.theme)    
+        
+        instance.save()
+        return instance
     

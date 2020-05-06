@@ -34,8 +34,8 @@ def paginate(posts, request, num):
         # if number is more, than total amount of pages - return last
     
 
-class PostListView(APIView):
-    """PostListView instead of simple def post-list()"""
+class PostView(APIView):
+    """PostView instead of simple def post-list()"""
     def get(self, request):
         posts = Post.objects.all()
         serializer = PostSeriazizer(posts, many=True)
@@ -43,55 +43,29 @@ class PostListView(APIView):
     
     def post(self, request):
         post_article = request.data.get('post_article')
-        
-        #Create an article from the above data
         serializer = PostSeriazizer(data=post_article)
         if serializer.is_valid(raise_exception=True):
             post_saved = serializer.save()
         return Response({"success": "Post '{}' created successfully".format(post_saved.title)})
+    
+    def put(self, request, slug):
+        saved_post = get_object_or_404(Post.objects.all(), slug=slug)
+        data = request.data.get('post_article')
+        serializer = PostSeriazizer(instance=saved_post, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            post_saved = serializer.save()
+        return Response({"success": "Post '{}' updated successfully".format(post_saved.title)})
 
-"""
+
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
-        "published_date"
-    )
-    posts = paginate(posts, request, 3)
-    return render(request, "blog/post_list.html", {"posts": posts})
-"""
-
-def post_list_theory(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
-        "published_date"
-    )
-    posts = posts.filter(theme="th")
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by("published_date")
     posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
-def post_list_practice(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
-        "published_date"
-    )
-    posts = posts.filter(theme="pr")
-    posts = paginate(posts, request, 3)
-    return render(request, "blog/post_list.html", {"posts": posts})
-
-
-def post_list_poetry(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
-        "published_date"
-    )
-    posts = posts.filter(theme="po")
-    posts = paginate(posts, request, 3)
-    return render(request, "blog/post_list.html", {"posts": posts})
-
-
-def post_list_mindflow(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
-        "published_date"
-    )
-    posts = posts.filter(theme="mf")
-    posts = paginate(posts, request, 3)
+def post_list_theme(request, theme):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by("published_date")
+    posts = posts.filter(theme=theme)
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
@@ -179,14 +153,11 @@ def comment_remove(request, slug):
 
 
 def post_share(request, slug):
-    # how to get article not by id, but by slug?
-    post = get_object_or_404(
-        Post, slug=slug
-    )  # here can be added feature to send only published posts
+    post = get_object_or_404(Post, slug=slug)
     sent = False
     if request.method == "POST":
-        form = PostSendForm(request.POST)  # here form is saved
-        if form.is_valid():  # form is validated
+        form = PostSendForm(request.POST)
+        if form.is_valid():
             cd = form.cleaned_data 
             post_url = request.build_absolute_uri(post.slug)
             subject = '{} ({}) recommends you reading "{}"'.format(
