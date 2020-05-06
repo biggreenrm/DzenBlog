@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .serializers import PostSeriazizer
 from .models import Post, Comment
 from .templates.blog.forms import PostForm, CommentForm, PostSendForm
 from django.utils import timezone
@@ -33,10 +34,21 @@ def paginate(posts, request, num):
         # if number is more, than total amount of pages - return last
     
 
-def PostListView(APIView):
+class PostListView(APIView):
+    """PostListView instead of simple def post-list()"""
     def get(self, request):
-        posts = Post.object.all()
-        return Response({'posts': posts})
+        posts = Post.objects.all()
+        serializer = PostSeriazizer(posts, many=True)
+        return Response({'posts': serializer.data})
+    
+    def post(self, request):
+        post_article = request.data.get('post_article')
+        
+        #Create an article from the above data
+        serializer = PostSeriazizer(data=post_article)
+        if serializer.is_valid(raise_exception=True):
+            post_saved = serializer.save()
+        return Response({"success": "Post '{}' created successfully".format(post_saved.title)})
 
 """
 def post_list(request):
