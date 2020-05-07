@@ -17,25 +17,20 @@ from rest_framework.views import APIView
 """ Функция пагинатор, написанная для того, чтобы не раздувать каждое представление,
 заменяя 16 строк кода всего одной. DRY """
 def paginate(posts, request, num):
-    paginator = Paginator(
-        posts, num
-    )  # создаём пагинатор (разбиение на страницы), по 3 поста на страничку
+    paginator = Paginator(posts, num)
     page = request.GET.get("page")
     try:
         posts = paginator.page(page)
         return posts
     except PageNotAnInteger:
-        # if page is not number - return first page
         posts = paginator.page(1)
         return posts
     except EmptyPage:
         return posts
         posts = paginator.page(paginator.num_pages)
-        # if number is more, than total amount of pages - return last
     
 
 class PostView(APIView):
-    """PostView instead of simple def post-list()"""
     def get(self, request):
         posts = Post.objects.all()
         serializer = PostSeriazizer(posts, many=True)
