@@ -19,6 +19,14 @@ class LikeDislikeManager(models.Manager):
     def sum_rating(self):
         # summary rating
         return self.get_queryset().aggregate(Sum('vote')).get('vote__sum') or 0
+    
+    def posts(self):
+        # return only posts likes
+        return self.get_queryset().filter(content_type__model='post').order_by('-posts__pub_date')
+    
+    def comment(self):
+        # return only comments likes
+        return self.get_queryset().filter(content_type__model='comment').order_by('-comments__pub_date')
 
 
 class LikeDislike(models.Model):
