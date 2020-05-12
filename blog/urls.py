@@ -17,6 +17,6 @@ urlpatterns = [
     path('post/<id>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
     path('comment/<id>/approve/', views.comment_approve, name='comment_approve'),
     path('comment/<id>/remove/', views.comment_remove, name='comment_remove'),
-    path('api/', views.PostView.as_view(), name="post_list_api"),
-    path('api/<id>/', views.PostView.as_view(), name='post_detail_api'),
+    path('api/post/', views.PostView.as_view(), name="post_list_api"),
+    path('api/post/<id>/', views.PostView.as_view(), name='post_detail_api'),
 ]

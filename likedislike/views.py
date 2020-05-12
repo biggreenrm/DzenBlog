@@ -10,8 +10,8 @@ class VotesView(View):
     model = None # Модель данных (комментарии или посты)
     vote_type = None # Тип голоса (лайк/дизлайк)
     
-    def post(self, request, pk):
-        obj = self.model.objects.get(pk=pk)
+    def post(self, request, id):
+        obj = self.model.objects.get(id=id)
         try:
             likedislike = LikeDislike.objects.get(
                 content_type=ContentType.objects.get_for_model(obj),
@@ -33,7 +33,7 @@ class VotesView(View):
             json.dumps({
                 "result": result,
                 "like_count": obj.votes.likes().count(),
-                "dislike_count": obj.votes.dislike().count(),
+                "dislike_count": obj.votes.dislikes().count(),
                 "sum_rating": obj.votes.sum_rating()
             }),
             content_type="application/json"
