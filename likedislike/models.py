@@ -38,8 +38,12 @@ class LikeDislike(models.Model):
         (LIKE, 'Нравится')
     )
     
-    vote = models.SmallIntegerField(verbose_name=_('Голос'), choices=VOTES)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Пользователь'))
+    vote = models.SmallIntegerField(verbose_name=('Голос'), choices=VOTES)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name=('Пользователь')
+    )
     
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()

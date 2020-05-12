@@ -8,20 +8,30 @@
                 {{ post.published_date }}
             </div>
         {% else %}
-            <a class="btn btn-success" href="{% url 'post_publish' slug=post.slug %}">Publish</a>
+            <a class="btn btn-success" href="{% url 'post_publish' id=post.id %}">Publish</a>
         {% endif %}
         {% if user.is_authenticated %}
-        <a class="btn btn-success" href="{% url 'post_edit' slug=post.slug %}">Edit</a>
-        <a class="btn btn-success" href="{% url 'post_remove' slug=post.slug %}">Remove</a>
+        <a class="btn btn-success" href="{% url 'post_edit' id=post.id %}">Edit</a>
+        <a class="btn btn-success" href="{% url 'post_remove' id=post.id %}">Remove</a>
         {% endif %}
-        <h1><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h1>
+        <h1><a href="{% url 'post_detail' id=post.id %}">{{ post.title }}</a></h1>
         <p>{{ post.text|linebreaksbr }}</p>
         <p>
-            <a class="btn btn-success" href="{% url 'post_share' slug=post.slug %}">Share this post</a>
+            <a class="btn btn-success" href="{% url 'post_share' id=post.id %}">Share this post</a>
         </p>
     </div>
+    <ul>
+        <li data-id="{{ post.id }}" data-type="post" data-action="like" title="Нравится">
+            <span class="glyphicon glyphicon-thumbs-up">Like</span>
+            <span data-count="like">{{ post.votes.likes.count }}</span>
+        </li>
+        <li data-id="{{ post.id }}" data-type="post" data-action="dislike" title="Не нравится">
+            <span class="glyphicon glyphicon-plus">Dislike</span>
+            <span data-count="dislike">{{ post.votes.dislikes.count }}</span>
+        </li>
+    </ul>
     <hr>
-        <a class="btn btn-success" href="{% url 'add_comment_to_post' slug=post.slug %}">Add comment</a>
+        <a class="btn btn-success" href="{% url 'add_comment_to_post' id=post.id %}">Add comment</a>
         {% for comment in post.comments.all %}
             {% if user.is_authenticated or comment.approved_comment %}
                 <div class="comment">

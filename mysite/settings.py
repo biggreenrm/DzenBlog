@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'blog',
+    'likedislike.apps.LikedislikeConfig',
     'user.apps.UserConfig',
     'crispy_forms',
 ]
