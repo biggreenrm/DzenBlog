@@ -1,4 +1,3 @@
-<!-- Это сердце единичного поста. Я вставляю его в шаблон base -->
 {% extends 'blog/base.html' %}
 
 {% block content %}
@@ -22,11 +21,11 @@
     </div>
     <ul>
         <li data-id="{{ post.id }}" data-type="post" data-action="like" title="Нравится">
-            <span class="glyphicon glyphicon-thumbs-up">Like</span>
+            <button class="btn btn-success">Like</button>
             <span data-count="like">{{ post.votes.likes.count }}</span>
         </li>
         <li data-id="{{ post.id }}" data-type="post" data-action="dislike" title="Не нравится">
-            <span class="glyphicon glyphicon-plus">Dislike</span>
+            <button class="btn btn-success">Dislike</button>
             <span data-count="dislike">{{ post.votes.dislikes.count }}</span>
         </li>
     </ul>
@@ -38,12 +37,20 @@
                     <div class="date">
                         {{ comment.created_date }}
                         {% if not comment.approved_comment %}
-                            <a class="btn btn-success" href="{% url 'comment_remove' pk=comment.pk %}">remove comment/a>
-                            <a class="btn btn-success" href="{% url 'comment_approve' pk=comment.pk %}">approve comment</a>
-            {% endif %}
+                            <a class="btn btn-success" href="{% url 'comment_remove' id=comment.id %}">remove comment</a>
+                            <a class="btn btn-success" href="{% url 'comment_approve' id=comment.id %}">approve comment</a>
+                        {% endif %}
                     </div>
                     <strong>{{ comment.author }}</strong>
                     <p>{{ comment.text|linebreaks }}</p>
+                    <li data-id="{{ comment.id }}" data-type="comment" data-action="like" title="Нравится">
+                        <button class="btn btn-success">Like</button>
+                        <span data-count="like">{{ comment.votes.likes.count }}</span>
+                    </li>
+                    <li data-id="{{ comment.id }}" data-type="comment" data-action="dislike" title="Не нравится">
+                        <button class="btn btn-success">Dislike</button>
+                        <span data-count="dislike">{{ comment.votes.dislikes.count }}</span>
+                    </li>
                 </div>
             {% endif %}
         {% empty %}
