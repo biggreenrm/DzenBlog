@@ -13,7 +13,7 @@
         <a class="btn btn-success" href="{% url 'post_edit' id=post.id %}">Edit</a>
         <a class="btn btn-success" href="{% url 'post_remove' id=post.id %}">Remove</a>
         {% endif %}
-        <h1><a href="{% url 'post_detail' id=post.id %}">{{ post.title }}</a></h1>
+        <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
         <p>{{ post.text|linebreaksbr }}</p>
         <p>
             <a class="btn btn-success" href="{% url 'post_share' id=post.id %}">Share this post</a>

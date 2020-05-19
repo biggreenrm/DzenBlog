@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 from autoslug import AutoSlugField
 from likedislike.models import LikeDislike
 from django.contrib.contenttypes.fields import GenericRelation
@@ -40,6 +41,10 @@ class Post(models.Model):
 
     def approved_comments(self):
         return self.comments.filter(approved_comment=True)
+    
+    # Good method to avoid hardcore urls in templates like "href=/xxx/yyy/<id>"
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[self.id])
 
 
 class Comment(models.Model):
