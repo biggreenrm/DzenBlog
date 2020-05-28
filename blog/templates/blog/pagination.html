@@ -13,15 +13,3 @@
                 </a>
             {% endif %}
 </nav>
-
-<nav class="blog-pagination">
-    {% if page.has_previous %}
-        <a class="btn btn-outline-primary" href="?page={{page.previous_page_number}}">Older</a>
-    {% endif %}
-    {% for i in page.paginator.page_range %}
-        <a classs="btn btn-outline-secondary disabled" href="?page={{ i }}">{{ i }}</a>
-    {% endfor %}
-    {% if page.has_next %}
-        <a class="btn btn-outline-secondary disabled" href="?page={{page.next_page_number}}">Newer</a>
-    {% endif %}
-</nav>
