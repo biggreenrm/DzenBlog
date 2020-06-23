@@ -1,14 +1,14 @@
 <nav class="blog-pagination">
             {% if page.has_previous %}
-                <a class="btn btn-outline-primary" href="?page={{page.previous_page_number}}" aria-label="Previous">
+                <a class="btn btn-sm btn-outline-secondary" href="?page={{page.previous_page_number}}" aria-label="Previous">
                     <span aria-hidden="true">Newer</span>
                 </a>
             {% endif %}
         {% for i in page.paginator.page_range %}
-           <a class="btn btn-outline-primary" href="?page={{ i }}">{{ i }}</a>
+           <a class="btn btn-sm btn-outline-secondary" href="?page={{ i }}">{{ i }}</a>
         {% endfor %}
             {% if page.has_next %}
-                <a class="btn btn-outline-primary" href="?page={{page.next_page_number}}" aria-label="Next">
+                <a class="btn btn-sm btn-outline-secondary" href="?page={{page.next_page_number}}" aria-label="Next">
                     <span aria-hidden="true">Older</span>
                 </a>
             {% endif %}

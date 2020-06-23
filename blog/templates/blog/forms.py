@@ -1,12 +1,10 @@
 from django import forms
-
 from blog.models import Post, Comment
-
-"""импортирую модуль с формами из стандартной библиотеки джанги"""
-"""Каждой отображаемой модели должна соответствовать форма в этом файле"""
+from tinymce.widgets import TinyMCE
 
 
 class PostForm(forms.ModelForm):
+    text = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
     class Meta:
         model = Post
         fields = (

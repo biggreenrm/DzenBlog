@@ -12,7 +12,8 @@
         <form action="." method="POST" novalidate>
             {{ form|crispy }}
             {% csrf_token %}
-            <input type="submit" value="Send e-mail">
+            <br>
+            <button type="submit" class="btn btn-sm btn-outline-secondary">Share this post</button>
         </form>
     {% endif %}
 {% endblock %}

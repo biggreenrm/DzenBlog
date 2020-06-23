@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'likedislike.apps.LikedislikeConfig',
     'user.apps.UserConfig',
     'crispy_forms',
+    'tinymce',
+    'svg',
 ]
 
 MIDDLEWARE = [

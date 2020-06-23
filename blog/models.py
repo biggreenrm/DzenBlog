@@ -7,6 +7,7 @@ from django.urls import reverse
 from autoslug import AutoSlugField
 from likedislike.models import LikeDislike
 from django.contrib.contenttypes.fields import GenericRelation
+from tinymce import models as tinymce_models
 
 
 class Post(models.Model):
@@ -22,7 +23,7 @@ class Post(models.Model):
     )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    text = models.TextField()
+    text = tinymce_models.HTMLField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     theme = models.CharField(max_length=255, choices=THEME_CHOICES, default=theory)
@@ -30,7 +31,7 @@ class Post(models.Model):
     votes = GenericRelation(LikeDislike, related_query_name='posts')
 
     class Meta:
-        ordering = ("-published_date",)
+        ordering = ("published_date",)
         
     def publish(self):
         self.published_date = timezone.now()

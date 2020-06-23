@@ -41,7 +41,7 @@
                 <div class="blog-post">
                     <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}" style="color: black;">{{ post.title }}</a></h2>
                     <p class="blog-post-meta">{{ post.published_date }}<a href="#" style="color: black;"> by {{ post.author }}</a></p>
-                    <p>{{ post.text|truncatechars:300|linebreaksbr }}</p>
+                    <p>{{ post.text|safe|truncatechars:300|linebreaksbr }}</p>
                     <a href="{{ post.get_absolute_url }}">Comments: {{ post.approved_comments.count }}</a>
                 </div><!-- /.blog-post -->
                 {% endfor %}
