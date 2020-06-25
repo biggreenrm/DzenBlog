@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres'
     'rest_framework',
     'blog',
     'likedislike.apps.LikedislikeConfig',
     'user.apps.UserConfig',
+    'search.apps.SearchConfig',
     'crispy_forms',
     'tinymce',
     'svg',
