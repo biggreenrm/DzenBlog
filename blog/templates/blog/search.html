@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1>Поиск</h1>
+{% if post_lists %}
+    {% for post in post_lists %}
+        <div class="blog-post">
+            <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}" style="color: black;">{{ post.title }}</a></h2>
+            <p class="blog-post-meta">{{ post.published_date }}<a href="#" style="color: black;"> by {{ post.author }}</a></p>
+            <p>{{ post.text|safe|truncatechars:300|linebreaksbr }}</p>
+            <a href="{{ post.get_absolute_url }}">Comments: {{ post.approved_comments.count }}</a>
+        </div><!-- /.blog-post -->
+    {% endfor %}
+    <!-- Здесь нужно вставить пагинацию. Заодно подразберусь -->
+{% else %}
+        <p>Не найдено публикаций по вашему запросу<br>Попробуйте повторить запрос с другой формулировкой</p>
+{% endif %}
+{% endblock %}
