@@ -15,11 +15,9 @@ class ESearchView(View):
         question = request.GET.get('q')
         if question is not None:
             search_posts = Post.objects.filter(text__search=question)
-
-            # формируем строку URL, которая будет содержать последний запрос
-            # Это важно для корректной работы пагинации
             context['last_question'] = '?q=%s' % question
-
+            # Руководствуясь DRY здесь можно было бы сделать пагинацию
+            # импортированную из blog.views и сделать аналогично
             current_page = Paginator(search_posts, 10)
 
             page = request.GET.get('page')
