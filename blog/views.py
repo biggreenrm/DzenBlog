@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from .serializers import PostSeriazizer
 from .models import Post, Comment
-from .templates.blog.forms import PostForm, CommentForm, PostSendForm
+from .templates.blog.forms import PostForm, CommentForm, PostSendForm, SearchForm
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.search import SearchVector
 from autoslug import AutoSlugField
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
@@ -114,6 +115,21 @@ def post_remove(request, id):
     post = get_object_or_404(Post, id=id)
     post.delete()
     return redirect("post_list")
+
+
+def post_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    # запдбшить это место и влезть в request.GET
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        results = Post.objects.annotate(search=SearchVector('title', 'text')).filter(search=query)
+    return render(request, 'blog/search.html', {'form': form,
+                                                         'query': query,
+                                                         'results': results})
 
 
 def add_comment_to_post(request, id):

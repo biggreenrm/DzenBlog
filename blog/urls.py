@@ -19,4 +19,5 @@ urlpatterns = [
     path('comment/<id>/remove/', views.comment_remove, name='comment_remove'),
     path('api/post/', views.PostView.as_view(), name="post_list_api"),
     path('api/post/<id>/', views.PostView.as_view(), name='post_detail_api'),
+    path('search/', views.post_search, name='post_search'),
 ]
