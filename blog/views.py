@@ -118,10 +118,15 @@ def post_remove(request, id):
 
 
 def post_search(request):
+    """ Запрос поступает из формы и оборачивается в параметр ?query='xxxxxxx' (именно query,
+    т.к. так называется строка в форме). Форма проверяется на валидность, форматируется и в
+    конце концов просиходит поиск по параметру внутри двух столбцов модели.
+    
+    """
+    
     form = SearchForm()
     query = None
     results = []
-    # запдбшить это место и влезть в request.GET
     if 'query' in request.GET:
         form = SearchForm(request.GET)
     if form.is_valid():
