@@ -138,7 +138,7 @@ def post_search(request):
     if form.is_valid():
         query = form.cleaned_data['query']
         # SearchVector creates an area of searching
-        search_vector = SearchVector('title', 'text')
+        search_vector = SearchVector('title', weight="A") + SearchVector('text', weight="B")
         # SearchQuery converts search string into search object
         # with a lot of additional functionality
         search_query = SearchQuery(query)
