@@ -1,17 +1,22 @@
+#django
 from django.shortcuts import render
-from .serializers import PostSeriazizer
-from .models import Post, Comment
-from .templates.blog.forms import PostForm, CommentForm, PostSendForm, SearchForm
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import SearchVector
-from autoslug import AutoSlugField
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+#first-party
+from .serializers import PostSeriazizer
+from .models import Post, Comment
+from .templates.blog.forms import PostForm, CommentForm, PostSendForm, SearchForm
+
+#third-party
+from autoslug import AutoSlugField
 
 
 def paginate(posts, request, num):
