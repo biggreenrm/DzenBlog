@@ -29,8 +29,9 @@ def paginate(posts, request, num):
         posts = paginator.page(1)
         return posts
     except EmptyPage:
-        return posts
         posts = paginator.page(paginator.num_pages)
+        return posts
+        
     
 
 class PostView(APIView):
@@ -123,10 +124,10 @@ def post_remove(request, id):
 
 
 def post_search(request):
-    """ Запрос поступает из формы и оборачивается в параметр ?query='xxxxxxx' (именно query,
+    """ 
+    Запрос поступает из формы и оборачивается в параметр ?query='xxxxxxx' (именно query,
     т.к. так называется строка в форме). Форма проверяется на валидность, форматируется и в
     конце концов просиходит поиск по параметру внутри двух столбцов модели.
-    
     """
     
     form = SearchForm()
@@ -136,10 +137,18 @@ def post_search(request):
         form = SearchForm(request.GET)
     if form.is_valid():
         query = form.cleaned_data['query']
-        results = Post.objects.annotate(search=SearchVector('title', 'text')).filter(search=query)
+        # SearchVector creates an area of searching
+        search_vector = SearchVector('title', 'text')
+        # SearchQuery converts search string into search object
+        # with a lot of additional functionality
+        search_query = SearchQuery(query)
+        results = Post.objects.annotate(
+            search=search_vector,
+            rank=SearchRank(search_vector, search_query)
+            ).filter(search=search_query).order_by('-rank')
     return render(request, 'blog/search.html', {'form': form,
-                                                         'query': query,
-                                                         'results': results})
+                                                'query': query,
+                                                'results': results})
 
 
 def add_comment_to_post(request, id):

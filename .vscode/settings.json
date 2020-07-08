@@ -7,5 +7,7 @@
     "workbench.preferredDarkColorTheme": "One Monokai",
     "workbench.preferredHighContrastColorTheme": "One Monokai",
     "workbench.preferredLightColorTheme": "One Monokai",
-    "editor.fontSize": 14
+    "editor.fontSize": 14,
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }
