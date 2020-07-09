@@ -1,8 +1,0 @@
-# Default ignored files
-/workspace.xml
-db.sqlite3
-todo
-/myenv/
-.idea/.gitignore
-blog/__pycache__/
-.vscode/

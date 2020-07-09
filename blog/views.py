@@ -145,10 +145,13 @@ def comment_remove(request, id):
 
 
 def post_share(request, id):
+    # retrieving article by id
     post = get_object_or_404(Post, id=id)
     sent = False
     if request.method == "POST":
+        # now form is saved
         form = PostSendForm(request.POST)
+        # validate each row (depends on used forms.method while creating row)
         if form.is_valid():
             cd = form.cleaned_data 
             post_url = request.build_absolute_uri(post.id)
