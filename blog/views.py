@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 #first-party
 from .serializers import PostSeriazizer
 from .models import Post, Comment
-from .templates.blog.forms import PostForm, CommentForm, PostSendForm, SearchForm
+from .forms import PostForm, CommentForm, PostSendForm, SearchForm
 
 #third-party
 from autoslug import AutoSlugField
