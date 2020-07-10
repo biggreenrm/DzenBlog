@@ -1,16 +1,22 @@
+#django
 from django.shortcuts import render
-from .serializers import PostSeriazizer
-from .models import Post, Comment
-from .templates.blog.forms import PostForm, CommentForm, PostSendForm
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from autoslug import AutoSlugField
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+#first-party
+from .serializers import PostSeriazizer
+from .models import Post, Comment
+from .forms import PostForm, CommentForm, PostSendForm, SearchForm
+
+#third-party
+from autoslug import AutoSlugField
 
 
 def paginate(posts, request, num):
@@ -23,8 +29,9 @@ def paginate(posts, request, num):
         posts = paginator.page(1)
         return posts
     except EmptyPage:
-        return posts
         posts = paginator.page(paginator.num_pages)
+        return posts
+        
     
 
 class PostView(APIView):
@@ -114,6 +121,34 @@ def post_remove(request, id):
     post = get_object_or_404(Post, id=id)
     post.delete()
     return redirect("post_list")
+
+
+def post_search(request):
+    """ 
+    Запрос поступает из формы и оборачивается в параметр ?query='xxxxxxx' (именно query,
+    т.к. так называется строка в форме). Форма проверяется на валидность, форматируется и в
+    конце концов просиходит поиск по параметру внутри двух столбцов модели.
+    """
+    
+    form = SearchForm()
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        # SearchVector creates an area of searching
+        search_vector = SearchVector('title', weight="A") + SearchVector('text', weight="B")
+        # SearchQuery converts search string into search object
+        # with a lot of additional functionality
+        search_query = SearchQuery(query)
+        results = Post.objects.annotate(
+            search=search_vector,
+            rank=SearchRank(search_vector, search_query)
+            ).filter(search=search_query).order_by('-rank')
+    return render(request, 'blog/search.html', {'form': form,
+                                                'query': query,
+                                                'results': results})
 
 
 def add_comment_to_post(request, id):
