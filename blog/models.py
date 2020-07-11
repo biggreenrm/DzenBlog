@@ -1,13 +1,17 @@
-# Create your models here.
-
+# django
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
-from autoslug import AutoSlugField
-from likedislike.models import LikeDislike
 from django.contrib.contenttypes.fields import GenericRelation
+
+# first-party
+from likedislike.models import LikeDislike
+
+# third-party
+from autoslug import AutoSlugField
 from tinymce import models as tinymce_models
+from taggit.managers import TaggableManager
 
 
 class Post(models.Model):
@@ -29,6 +33,8 @@ class Post(models.Model):
     theme = models.CharField(max_length=255, choices=THEME_CHOICES, default=theory)
     slug = AutoSlugField(populate_from="title")
     votes = GenericRelation(LikeDislike, related_query_name="posts")
+    # this manager allow to add, get list of tags and delete it from Post objects
+    tags = TaggableManager()
 
     class Meta:
         ordering = ("published_date",)

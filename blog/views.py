@@ -17,6 +17,7 @@ from .forms import PostForm, CommentForm, PostSendForm, SearchForm
 
 # third-party
 from autoslug import AutoSlugField
+from taggit.models import Tag
 
 
 def paginate(posts, request, num):
@@ -59,12 +60,18 @@ class PostView(APIView):
         )
 
 
-def post_list(request):
+def post_list(request, tag_slug=None):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
         "-published_date"
     )
+    tag = None
+
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        posts = posts.filter(tags__in=[tag])
+
     posts = paginate(posts, request, 3)
-    return render(request, "blog/post_list.html", {"posts": posts})
+    return render(request, "blog/post_list.html", {"posts": posts, "tag": tag})
 
 
 def post_list_theme(request, theme):
@@ -202,15 +209,17 @@ def post_share(request, id):
         if form.is_valid():
             cd = form.cleaned_data
             post_url = request.build_absolute_uri(str(post.id))
+
             subject = '{} ({}) recommends you reading "{}"'.format(
                 cd["name"], cd["email"], post.title
             )
+
             message = 'Read "{}" at {}\n\n{}\'s comments:{}'.format(
                 post.title, post_url, cd["name"], cd["comments"]
             )
+
             send_mail(subject, message, "biggreen.rm@gmail.com", [cd["to"]])
             sent = True
-            # return redirect("post_detail", id=post.id)
     else:
         form = PostSendForm()
     return render(
