@@ -189,7 +189,7 @@ def post_share(request, id):
         # validate each row (depends on used forms.method while creating row)
         if form.is_valid():
             cd = form.cleaned_data 
-            post_url = request.build_absolute_uri(post.id)
+            post_url = request.build_absolute_uri(str(post.id))
             subject = '{} ({}) recommends you reading "{}"'.format(
                 cd["name"], cd["email"], post.title
             )
@@ -198,9 +198,9 @@ def post_share(request, id):
             )
             send_mail(subject, message, "biggreen.rm@gmail.com", [cd["to"]])
             sent = True
-            return redirect("post_detail", id=post.id)
+            #return redirect("post_detail", id=post.id)
     else:
         form = PostSendForm()
-        return render(
-            request, "blog/share.html", {"post": post, "form": form, "sent": sent}
-        )
+    return render(request, "blog/share.html", {"post": post,
+                                               "form": form,
+                                               "sent": sent})
