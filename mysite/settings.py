@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "tinymce",
     "svg",
+    "taggit",
 ]
 
 MIDDLEWARE = [
