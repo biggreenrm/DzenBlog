@@ -6,14 +6,10 @@ import tinymce.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('blog', '0003_auto_20200229_1255'),
-    ]
+    dependencies = [("blog", "0003_auto_20200229_1255")]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='text',
-            field=tinymce.models.HTMLField(),
-        ),
+            model_name="post", name="text", field=tinymce.models.HTMLField()
+        )
     ]

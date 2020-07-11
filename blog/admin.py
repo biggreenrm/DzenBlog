@@ -38,7 +38,7 @@ class PostAdmin(admin.ModelAdmin):
         "title",
         "text",
     )  # add search field to the top to make search in 'text' and 'title' columns of DB.
-    #prepopulated_fields = {"slug": ("title",)}  # auto-generating urls from title
+    # prepopulated_fields = {"slug": ("title",)}  # auto-generating urls from title
     date_hierarchy = "created_date"  # add date navigation panel
     ordering = ("created_date", "author")  # default sorting style
     """Все переменные выше уже знакомы джанге и именно по ним она ориентируется)"""

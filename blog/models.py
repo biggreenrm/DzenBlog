@@ -28,11 +28,11 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True)
     theme = models.CharField(max_length=255, choices=THEME_CHOICES, default=theory)
     slug = AutoSlugField(populate_from="title")
-    votes = GenericRelation(LikeDislike, related_query_name='posts')
+    votes = GenericRelation(LikeDislike, related_query_name="posts")
 
     class Meta:
         ordering = ("published_date",)
-        
+
     def publish(self):
         self.published_date = timezone.now()
         self.save()
@@ -42,19 +42,21 @@ class Post(models.Model):
 
     def approved_comments(self):
         return self.comments.filter(approved_comment=True)
-    
+
     # Good method to avoid hardcore urls in templates like "href=/xxx/yyy/<id>"
     def get_absolute_url(self):
-        return reverse('post_detail', args=[self.id])
+        return reverse("post_detail", args=[self.id])
 
 
 class Comment(models.Model):
-    post = models.ForeignKey("blog.Post", on_delete=models.CASCADE, related_name="comments")
+    post = models.ForeignKey(
+        "blog.Post", on_delete=models.CASCADE, related_name="comments"
+    )
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
-    votes = GenericRelation(LikeDislike, related_query_name='comments')
+    votes = GenericRelation(LikeDislike, related_query_name="comments")
 
     def approve(self):
         self.approved_comment = True

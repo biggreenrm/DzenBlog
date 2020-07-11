@@ -5,14 +5,21 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('blog', '0002_auto_20200229_1241'),
-    ]
+    dependencies = [("blog", "0002_auto_20200229_1241")]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='theme',
-            field=models.CharField(choices=[('th', 'Theory'), ('pr', 'Practice'), ('po', 'Poetry'), ('mf', 'Mindflow')], default='th', max_length=255),
-        ),
+            model_name="post",
+            name="theme",
+            field=models.CharField(
+                choices=[
+                    ("th", "Theory"),
+                    ("pr", "Practice"),
+                    ("po", "Poetry"),
+                    ("mf", "Mindflow"),
+                ],
+                default="th",
+                max_length=255,
+            ),
+        )
     ]

@@ -7,3 +7,4 @@ pytils==0.3
 pytz==2020.1
 rope==0.17.0
 sqlparse==0.3.1
+pre-commit==2.3.0

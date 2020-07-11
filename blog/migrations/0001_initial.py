@@ -9,33 +9,69 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Comment',
+            name="Comment",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('author', models.CharField(max_length=200)),
-                ('text', models.TextField()),
-                ('created_date', models.DateTimeField(default=django.utils.timezone.now)),
-                ('approved_comment', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("author", models.CharField(max_length=200)),
+                ("text", models.TextField()),
+                (
+                    "created_date",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                ("approved_comment", models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
-                ('text', models.TextField()),
-                ('created_date', models.DateTimeField(default=django.utils.timezone.now)),
-                ('published_date', models.DateTimeField(blank=True, null=True)),
-                ('theme', models.CharField(choices=[('th', 'Theory'), ('pr', 'Practice'), ('po', 'Poetry'), ('mf', 'Mindflow')], default='th', max_length=2)),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from='title')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                ("text", models.TextField()),
+                (
+                    "created_date",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                ("published_date", models.DateTimeField(blank=True, null=True)),
+                (
+                    "theme",
+                    models.CharField(
+                        choices=[
+                            ("th", "Theory"),
+                            ("pr", "Practice"),
+                            ("po", "Poetry"),
+                            ("mf", "Mindflow"),
+                        ],
+                        default="th",
+                        max_length=2,
+                    ),
+                ),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False, populate_from="title"
+                    ),
+                ),
             ],
-            options={
-                'ordering': ('-published_date',),
-            },
+            options={"ordering": ("-published_date",)},
         ),
     ]

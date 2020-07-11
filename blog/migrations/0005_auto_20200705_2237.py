@@ -5,13 +5,10 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('blog', '0004_auto_20200531_1344'),
-    ]
+    dependencies = [("blog", "0004_auto_20200531_1344")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='post',
-            options={'ordering': ('published_date',)},
-        ),
+            name="post", options={"ordering": ("published_date",)}
+        )
     ]

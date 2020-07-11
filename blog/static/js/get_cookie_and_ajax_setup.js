@@ -13,7 +13,7 @@ function getCookie(name) {
         }
     }
     return cookieValue;
-}  
+}
 // Настройка AJAX
 $(function () {
     $.ajaxSetup({
