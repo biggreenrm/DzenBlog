@@ -10,7 +10,7 @@
             <h3 class="mb-0">English dictionary</h3>
             <div class="mb-1 text-muted">Nov 12</div>
             <p class="card-text mb-auto">Personal collection of words and idioms needed to be studied. Divided by theme.
-                Read, say, sleep. Repeat.
+                Read, speak, sleep. Repeat.
             </p>
             <a href="http://127.0.0.1:8000/post/16/" class="stretched-link">Continue reading</a>
             </div>
@@ -46,6 +46,8 @@
                     <p class="blog-post-meta">{{ post.published_date }}<a href="#" style="color: black;"> by {{ post.author }}</a></p>
                     <p>{{ post.text|safe|truncatechars:300|linebreaksbr }}</p>
                     <a href="{{ post.get_absolute_url }}">Comments: {{ post.approved_comments.count }}</a>
+                    <br/>
+                    <a href="{{ post.get_absolute_url }}">Rating: +{{ post.votes.likes.count}} | -{{ post.votes.dislikes.count }}</a>
                 </div><!-- /.blog-post -->
                 {% endfor %}
                 <nav class="blog-pagination">
