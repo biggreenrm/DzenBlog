@@ -1,12 +1,13 @@
 # django
-from django.shortcuts import render
-from django.utils import timezone
-from django.shortcuts import render, get_object_or_404
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
+from django.db.models import Count
+from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect
+from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -61,14 +62,16 @@ class PostView(APIView):
 
 
 def post_list(request, tag_slug=None):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
-        "-published_date"
-    )
+    posts = Post.objects.filter().order_by("-published_date")
     tag = None
 
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         posts = posts.filter(tags__in=[tag])
+
+    # creating list of similiar posts
+    post_tags_ids = posts.tags.values_list("id", flat=True)
+    similiar_posts = Post.published_date
 
     posts = paginate(posts, request, 3)
     return render(request, "blog/post_list.html", {"posts": posts, "tag": tag})
