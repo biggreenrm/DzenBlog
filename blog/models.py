@@ -14,6 +14,11 @@ from tinymce import models as tinymce_models
 from taggit.managers import TaggableManager
 
 
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(published_date__lte=timezone.now())
+
+
 class Post(models.Model):
     theory = "th"
     practice = "pr"
@@ -35,6 +40,10 @@ class Post(models.Model):
     votes = GenericRelation(LikeDislike, related_query_name="posts")
     # this manager allow to add, get list of tags and delete it from Post objects
     tags = TaggableManager()
+    # default manager
+    objects = models.Manager()
+    # custom manager only for published posts
+    published = PublishedManager()
 
     class Meta:
         ordering = ("published_date",)
