@@ -56,6 +56,14 @@
             </div>
         </p>
     </div>
+    <p>
+        You can also be interested in:
+        <ul>
+            {% for similiar_post in similiar_posts %}
+            <li><a href="similiar_post.get_absolute_url">{{ similiar_post.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </p>
     <hr>
         <a class="btn btn-sm btn-outline-secondary" href="{% url 'add_comment_to_post' id=post.id %}">
             {% svg 'add_comment' %}
