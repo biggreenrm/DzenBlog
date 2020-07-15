@@ -3,7 +3,7 @@
     "git.ignoreLimitWarning": true,
     "editor.defaultFormatter": "vscode.python",
     "files.autoSave": "afterDelay",
-    "workbench.colorTheme": "A Touch of Lilac Theme",
+    "workbench.colorTheme": "Monokai",
     "workbench.preferredDarkColorTheme": "One Monokai",
     "workbench.preferredHighContrastColorTheme": "One Monokai",
     "workbench.preferredLightColorTheme": "One Monokai",
