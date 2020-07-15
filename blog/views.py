@@ -62,7 +62,9 @@ class PostView(APIView):
 
 
 def post_list(request, tag_slug=None):
-    posts = Post.objects.filter().order_by("-published_date")
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by(
+        "-published_date"
+    )
     tag = None
 
     if tag_slug:
@@ -81,8 +83,14 @@ def post_list_theme(request, theme):
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
-def post_detail(request, id):
-    post = get_object_or_404(Post, id=id)
+def post_detail(request, id, year, month, day):
+    post = get_object_or_404(
+        Post,
+        id=id,
+        created_date__year=year,
+        created_date__month=month,
+        created_date__day=day,
+    )
 
     # creating list of similiar posts
     post_tags_ids = post.tags.values_list("id", flat=True)
@@ -219,6 +227,7 @@ def post_share(request, id):
         # validate each row (depends on used forms.method while creating row)
         if form.is_valid():
             cd = form.cleaned_data
+            # what if I code just 'id' instead of str(post.id)?
             post_url = request.build_absolute_uri(str(post.id))
 
             subject = '{} ({}) recommends you reading "{}"'.format(

@@ -7,7 +7,11 @@ from . import views
 urlpatterns = [
     path("", views.post_list, name="post_list"),
     path("<theme>", views.post_list_theme, name="post_list_theme"),
-    path("post/<id>/", views.post_detail, name="post_detail"),
+    path(
+        "post/<int:year>/<int:month>/<int:day>/<id>/",
+        views.post_detail,
+        name="post_detail",
+    ),
     path("post/<id>/share/", views.post_share, name="post_share"),
     path("tag/<slug:tag_slug>/", views.post_list, name="post_list_by_tag"),
     path("new/", views.post_new, name="post_new"),
