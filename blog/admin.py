@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Post, Comment
 from user.models import CustomUser
+from mce_filebrowser.admin import MCEFilebrowserAdmin
 
 # Register your models here.
 
@@ -18,7 +19,7 @@ class CommentAdmin(admin.ModelAdmin):
 # этот декоратор выполняет ту же самую функцию, что и admin.site.register(Post)
 # параметр list_display указывает джанге какие поля выводить в админке
 @admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(MCEFilebrowserAdmin):
     list_display = (
         "title",
         "slug",

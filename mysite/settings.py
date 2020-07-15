@@ -49,10 +49,12 @@ INSTALLED_APPS = [
     "blog",
     "likedislike.apps.LikedislikeConfig",
     "user.apps.UserConfig",
+    "sorl.thumbnail",
     "crispy_forms",
     "tinymce",
     "svg",
     "taggit",
+    "mce_filebrowser",
 ]
 
 MIDDLEWARE = [
@@ -150,3 +152,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 LOGIN_REDIRECT_URL = "/"
 AUTH_USER_MODEL = "user.CustomUser"
+
+# TinyMCE
+
+TINYMCE_DEFAULT_CONFIG = {"file_browser_callback": "mce_filebrowser"}
