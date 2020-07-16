@@ -2,6 +2,7 @@
 
 from django.urls import path
 from . import views
+from .feeds import PostFeed
 
 
 urlpatterns = [
@@ -25,4 +26,5 @@ urlpatterns = [
     path("api/post/", views.PostView.as_view(), name="post_list_api"),
     path("api/post/<id>/", views.PostView.as_view(), name="post_detail_api"),
     path("search/", views.post_search, name="post_search"),
+    path("feed/", PostFeed(), name="post_feed"),
 ]
