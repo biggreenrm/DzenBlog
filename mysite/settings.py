@@ -34,7 +34,7 @@ DEBUG = True
 для запуска на локальной машине"""
 
 ALLOWED_HOSTS = ["127.0.0.1", ".pythonanywhere.com", "localhost"]
-
+SITE_ID = 1
 
 # Application definition
 INSTALLED_APPS = [
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.sites",
+    "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "django.contrib.postgres",
     "rest_framework",
