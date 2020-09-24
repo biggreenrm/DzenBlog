@@ -3,21 +3,21 @@
 {% block content %}
     <div class="post">
         {% if not post.published_date %}
-            <a style="color: black;" href="{% url 'post_publish' id=post.id %}">
+            <a class="muted-link" href="{% url 'post_publish' id=post.id %}">
                 {% svg 'publish' %}
             </a>
         {% endif %}
         {% if user.is_authenticated %}
-        <a style="color: black;" href="{% url 'post_edit' id=post.id %}">
+        <a class="muted-link" href="{% url 'post_edit' id=post.id %}">
             {% svg 'edit' %}
         </a>
-        <a style="color: black;" href="{% url 'post_remove' id=post.id %}">
+        <a class="muted-link" href="{% url 'post_remove' id=post.id %}">
             {% svg 'remove' %}
         </a>
         {% endif %}
         <div class="blog-post">
-            <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}" style="color: black;">{{ post.title }}</a></h2>
-            <p class="blog-post-meta">{{ post.published_date }}<a href="#" style="color: black;"> by {{ post.author }}</a></p>
+            <h2 class="blog-post-title"><a class="muted-link" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <p class="blog-post-meta">{{ post.published_date }}<a class="muted-link" href="#"> by {{ post.author }}</a></p>
         </div>
         <p>{{ post.text|safe|linebreaksbr }}</p>
         <p>
@@ -56,6 +56,7 @@
             </div>
         </p>
     </div>
+    {% if similiar_posts %}
     <p>
         You can also be interested in:
         <ul>
@@ -64,6 +65,7 @@
             {% endfor %}
         </ul>
     </p>
+    {% endif %}
     <hr>
         <a class="btn btn-sm btn-outline-secondary" href="{% url 'add_comment_to_post' id=post.id %}">
             {% svg 'add_comment' %}

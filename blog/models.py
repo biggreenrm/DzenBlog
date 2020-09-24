@@ -61,15 +61,7 @@ class Post(models.Model):
     # Good method to avoid hardcore urls in templates like "href=/xxx/yyy/<id>"
     def get_absolute_url(self):
         # import pdb; pdb.set_trace()
-        return reverse(
-            "post_detail",
-            args=[
-                self.created_date.year,
-                self.created_date.month,
-                self.created_date.day,
-                self.id,
-            ],
-        )
+        return reverse("post_detail", args=[self.id])
 
 
 class Comment(models.Model):

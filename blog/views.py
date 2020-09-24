@@ -22,6 +22,7 @@ from taggit.models import Tag
 
 
 def paginate(posts, request, num):
+    # num - number of posts on page
     paginator = Paginator(posts, num)
     page = request.GET.get("page")
     try:
@@ -83,14 +84,8 @@ def post_list_theme(request, theme):
     return render(request, "blog/post_list.html", {"posts": posts})
 
 
-def post_detail(request, id, year, month, day):
-    post = get_object_or_404(
-        Post,
-        id=id,
-        created_date__year=year,
-        created_date__month=month,
-        created_date__day=day,
-    )
+def post_detail(request, id):
+    post = get_object_or_404(Post, id=id)
 
     # creating list of similiar posts
     post_tags_ids = post.tags.values_list("id", flat=True)
