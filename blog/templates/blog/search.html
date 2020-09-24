@@ -18,10 +18,13 @@
         {% endfor %}
         <p><a href="{% url 'post_search' %}">Search again</a></p>
     {% else %}
+    <p>
         <h1>Search for posts</h1>
         <form action="." method="get">
             {{ form.as_p }}
-            <input type="submit" value="Search">
+            <input  class="btn btn-sm btn-outline-secondary" type="submit" value="Search">
         </form>
+    </p>
     {% endif %}
+    <br/>
 {% endblock %}
