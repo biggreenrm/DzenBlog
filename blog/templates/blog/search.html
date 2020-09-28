@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}Search{% endblock %}
 
@@ -23,8 +24,14 @@
     <p>
         <h1>Search for posts</h1>
         <form action="." method="get">
-            {{ form.as_p }}
-            <input  class="btn btn-sm btn-outline-secondary" type="submit" value="Search">
+            <div class="row" style="margin-left: 5px;">
+                <div>
+                    {{ form|crispy }}
+                </div>
+                <div style="margin-left: 5px;">
+                    <input  class="btn btn-sm btn-outline-secondary" type="submit" value="Search">
+                </div>
+            </div>
         </form>
     </p>
     {% endif %}
