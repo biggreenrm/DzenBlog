@@ -72,8 +72,13 @@ def post_list(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug)
         posts = posts.filter(tags__in=[tag])
 
+    all_tags = Tag.objects.all()
     posts = paginate(posts, request, 3)
-    return render(request, "blog/post_list.html", {"posts": posts, "tag": tag})
+    return render(
+        request,
+        "blog/post_list.html",
+        {"posts": posts, "tag": tag, "all_tags": all_tags},
+    )
 
 
 def post_list_theme(request, theme):
