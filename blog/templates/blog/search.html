@@ -7,12 +7,14 @@
         <h1>Posts containing "{{ query }}":</h1>
         <h3>
             {% with results.count as total_results %}
-                Found {{ total_results }} result {{ total_results|pluralize }}
+                Found {{ total_results }} result{{ total_results|pluralize }}
             {% endwith %}
         </h3>
+        <br/>
         {% for post in results %}
             <h4><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
-            <h6>{{ post.text|truncatewords:5 }}</h6>
+            <h6>{{ post.text|striptags|truncatewords:5 }}</h6>
+            <br/>
         {% empty %}
             <p>There are no results for your query.</p>
         {% endfor %}
