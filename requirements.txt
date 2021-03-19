@@ -2,7 +2,7 @@ appdirs==1.4.4
 asgiref==3.2.10
 cfgv==3.2.0
 distlib==0.3.1
-Django==2.2.12
+Django==2.2.18
 django-autoslug==1.9.7
 django-crispy-forms==1.9.0
 django-inline-svg==0.1.1
