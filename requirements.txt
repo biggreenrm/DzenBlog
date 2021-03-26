@@ -18,7 +18,7 @@ protobuf==3.12.2
 psycopg2==2.8.5
 pytils==0.3
 pytz==2020.1
-PyYAML==5.3.1
+PyYAML==5.4
 rope==0.17.0
 six==1.15.0
 sqlparse==0.3.1
